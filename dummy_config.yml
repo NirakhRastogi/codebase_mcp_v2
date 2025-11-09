@@ -1,0 +1,74 @@
+repository:
+  url: "${REPOSITORY_URL}"
+  local_path: "${REPOSITORY_LOCAL_PATH}"
+  branch: "master"
+  sync_interval_minutes: 15
+
+database:
+  host: "localhost"
+  port: 5433
+  database: "codebase_mcp"
+  user: "postgres"
+  password: "${POSTGRES_PASSWORD}"
+
+embedding:
+  model: "sentence-transformers/all-MiniLM-L6-v2"
+  dimension: 384
+  batch_size: 64
+  device: "cuda"  # or "cpu"
+
+indexing:
+  max_file_size_kb: 1024
+  supported_extensions : {
+    ".py": "python",
+    ".js": "javascript",
+    ".ts": "typescript",
+    ".java": "java",
+    ".go": "go",
+    ".rs": "rust",
+    ".kt": "kotlin",
+    ".yml": "yaml",
+    ".yaml": "yaml",
+    ".json": "json",
+    ".css": "css"
+  }
+  chunk_size_lines: 50
+  chunk_overlap_lines: 10
+
+cache:
+  memory_size_mb: 100
+  disk_path: "~/.cache/mcp-codebase"
+
+webhooks:
+  enabled: true
+  secret: "${GITHUB_WEBHOOK_SECRET}"
+  port: 8080
+
+graph:
+  batch_size: 200
+  workers: 6
+  lib_path: build/my-languages.so
+  embedding_dim: 384
+  chunk_batch_size: 128
+  chunk_context_lines: 3
+
+query_pipeline:
+  max_results: 10
+  semantic_threshold: 0.4
+  max_context_tokens: 8000
+  default_model: "sentence-transformers/all-MiniLM-L6-v2"
+
+agent:
+  mode: "ollama"          # "cloud" or "ollama"
+  llm_model: "llama3"     # model for ollama
+  max_rounds: 3
+
+  # Optional: if using a cloud model
+  cloud:
+    api_url: "https://ai-proxy.company.com/v1/invoke"
+    api_key: "${AGENT_API_KEY}"
+    model_id: "bedrock.claude-3-sonnet"
+    temperature: 0.7
+    max_tokens: 1024
+
+

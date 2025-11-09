@@ -1,0 +1,6 @@
+.idea
+.venv
+build
+grammers
+repos
+config.yaml
